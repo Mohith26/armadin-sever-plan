@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sever plan · Remediation · Armadin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="brand">
+      <img src="assets/armadin-wordmark.svg" alt="Armadin" class="wordmark">
+    </div>
+    <button class="org"><span class="org-dot">MF</span><span class="org-name">Meridian Freight</span><i data-lucide="chevrons-up-down"></i></button>
+    <nav>
+      <div class="nav-label">Operate</div>
+      <a><i data-lucide="layout-grid"></i>Overview</a>
+      <a><i data-lucide="radar"></i>Hyperattacks</a>
+      <a><i data-lucide="git-fork"></i>Kill chains<span class="count" id="nav-chains"></span></a>
+      <a><i data-lucide="crosshair"></i>Findings<span class="count">41</span></a>
+      <a><i data-lucide="globe"></i>Attack surface</a>
+      <div class="nav-label">Remediate</div>
+      <a><i data-lucide="wrench"></i>Remediation</a>
+      <a class="active"><i data-lucide="scissors"></i>Sever plan<span class="new">New</span></a>
+      <a><i data-lucide="shield-check"></i>Compensating controls</a>
+      <a><i data-lucide="rotate-cw"></i>Retests</a>
+      <div class="nav-label">Workspace</div>
+      <a><i data-lucide="plug"></i>Integrations</a>
+      <a><i data-lucide="file-text"></i>Reports</a>
+    </nav>
+    <div class="side-foot">
+      <a><i data-lucide="settings"></i>Settings</a>
+      <div class="user"><span class="avatar">SR</span><div><div class="u-name">Sam Reyes</div><div class="u-role">Security engineering</div></div></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div class="crumbs"><span>Remediation</span><i data-lucide="chevron-right"></i><span class="cur">Sever plan</span></div>
+      <div class="top-right">
+        <span class="chip mono"><span class="live"></span>HA-1104 · Hyperattack · Nov 3 to 4</span>
+        <span class="chip mono" id="replay-chip"></span>
+        <button class="btn mono" id="push-btn">Push auto-apply set <span class="arrow">→</span></button>
+      </div>
+    </header>
+
+    <section class="page">
+      <div class="page-head">
+        <div>
+          <h1>Sever plan</h1>
+          <p class="sub" id="subline"></p>
+        </div>
+        <div class="knobs">
+          <div class="knob"><span class="k-label">Sever depth</span><div class="seg" id="seg-depth"><button data-v="1" class="on">1 cut</button><button data-v="2">2 cuts</button></div></div>
+          <div class="knob"><span class="k-label">Sever within</span><div class="seg" id="seg-time"><button data-v="10">10 min</button><button data-v="60">1 hr</button><button data-v="120">2 hr</button><button data-v="Infinity" class="on">Any</button></div></div>
+        </div>
+      </div>
+
+      <div class="stats" id="stats"></div>
+
+      <div class="grid-top">
+        <div class="card graph-card">
+          <div class="card-head">
+            <div><div class="card-title">Validated kill chains under this plan</div><div class="card-sub" id="graph-sub"></div></div>
+            <div class="legend mono"><span><i class="lg open"></i>Swarm reaches</span><span><i class="lg cut"></i>Cut</span><span><i class="lg dead"></i>Unreachable now</span></div>
+          </div>
+          <svg id="graph" viewBox="0 0 740 440" preserveAspectRatio="xMidYMid meet"></svg>
+        </div>
+        <div class="card plan-card">
+          <div class="card-head">
+            <div><div class="card-title">Plan</div><div class="card-sub" id="plan-sub"></div></div>
+          </div>
+          <div id="plan-list"></div>
+          <div class="plan-foot" id="plan-foot"></div>
+        </div>
+      </div>
+
+      <div class="grid-bottom">
+        <div class="card">
+          <div class="card-head">
+            <div><div class="card-title">Candidate controls, replayed against production telemetry</div><div class="card-sub">Each rule's own predicate run over 14 days of logs from its enforcement point. Recorded variants = the swarm's attempts on that step during HA-1104.</div></div>
+          </div>
+          <table class="tbl" id="tbl"></table>
+        </div>
+        <div class="col-right">
+          <div class="card">
+            <div class="card-head"><div><div class="card-title">Time to sever vs. collateral</div><div class="card-sub" id="front-sub"></div></div></div>
+            <svg id="frontier" viewBox="0 0 440 220"></svg>
+          </div>
+          <div class="card" id="detail"></div>
+        </div>
+      </div>
+      <footer class="foot mono">Unofficial concept demo by Mohith Gajjela. Not affiliated with Armadin. Synthetic data.</footer>
+    </section>
+  </main>
+</div>
+<div class="toast mono" id="toast"></div>
+<script type="module" src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,467 @@
+{
+ "seed": 20261104,
+ "days": 14,
+ "events": {
+  "waf.quote-api": {
+   "legit": 61001,
+   "attack": 7
+  },
+  "imds.quote-api": {
+   "legit": 48293,
+   "attack": 4
+  },
+  "k8s.audit": {
+   "legit": 20235,
+   "attack": 11
+  },
+  "apigw.deploy": {
+   "legit": 933,
+   "attack": 3
+  },
+  "waf.www": {
+   "legit": 43428,
+   "attack": 1
+  },
+  "entra.signin": {
+   "legit": 28680,
+   "attack": 7
+  },
+  "edr.mft-01": {
+   "legit": 5968,
+   "attack": 3
+  },
+  "edr.jump": {
+   "legit": 1950,
+   "attack": 2
+  },
+  "net.webdav": {
+   "legit": 2066,
+   "attack": 2
+  },
+  "iis.certsrv": {
+   "legit": 24,
+   "attack": 2
+  },
+  "dc.tgs": {
+   "legit": 10988,
+   "attack": 3
+  },
+  "net.backup-smb": {
+   "legit": 12663,
+   "attack": 1
+  },
+  "vcenter.auth": {
+   "legit": 458,
+   "attack": 2
+  },
+  "waf.mft": {
+   "legit": 12729,
+   "attack": 2
+  },
+  "waf.vpn": {
+   "legit": 26039,
+   "attack": 2
+  }
+ },
+ "chains": [
+  {
+   "id": "KC-01",
+   "path": "E1 > P1 > O5"
+  },
+  {
+   "id": "KC-02",
+   "path": "E1 > P1 > P3 > O1"
+  },
+  {
+   "id": "KC-03",
+   "path": "E1 > P1 > P3 > O5"
+  },
+  {
+   "id": "KC-04",
+   "path": "E1 > P2 > P3 > O1"
+  },
+  {
+   "id": "KC-05",
+   "path": "E1 > P2 > P3 > O5"
+  },
+  {
+   "id": "KC-06",
+   "path": "E2 > P4 > O1"
+  },
+  {
+   "id": "KC-07",
+   "path": "E3 > P6 > P7 > O2"
+  },
+  {
+   "id": "KC-08",
+   "path": "E3 > P8 > P9 > O3"
+  },
+  {
+   "id": "KC-09",
+   "path": "E3 > P8 > P11 > O4"
+  },
+  {
+   "id": "KC-10",
+   "path": "E4 > P5 > P10 > O2"
+  },
+  {
+   "id": "KC-11",
+   "path": "E4 > P5 > P10 > P11 > O4"
+  },
+  {
+   "id": "KC-12",
+   "path": "E4 > P5 > P6 > P7 > O2"
+  },
+  {
+   "id": "KC-13",
+   "path": "E5 > P10 > O2"
+  },
+  {
+   "id": "KC-14",
+   "path": "E5 > P10 > P11 > O4"
+  },
+  {
+   "id": "KC-15",
+   "path": "E5 > P6 > P7 > O2"
+  }
+ ],
+ "controls": [
+  {
+   "id": "C01",
+   "name": "Block callback_url containing 169.254.169.254",
+   "exception": null,
+   "k": 0,
+   "perDayUCB": 0.214,
+   "variants": "2/7",
+   "gate": "PARTIAL"
+  },
+  {
+   "id": "C02",
+   "name": "Block callback_url resolving to internal ranges",
+   "exception": null,
+   "k": 805,
+   "perDayUCB": 60.947,
+   "variants": "7/7",
+   "gate": "STAGE FIRST"
+  },
+  {
+   "id": "C02x",
+   "name": "Block callback_url resolving to internal ranges",
+   "exception": "except 10.40.2.7 -> 10.40.3.12:8080",
+   "k": 0,
+   "perDayUCB": 0.214,
+   "variants": "7/7",
+   "gate": "AUTO-APPLY"
+  },
+  {
+   "id": "C03",
+   "name": "Enforce IMDSv2 on quote-api instances",
+   "exception": null,
+   "k": 24192,
+   "perDayUCB": 1746.386,
+   "variants": "4/4",
+   "gate": "STAGE FIRST"
+  },
+  {
+   "id": "C04",
+   "name": "NetworkPolicy: deny namespace quote to kube-apiserver",
+   "exception": null,
+   "k": 16154,
+   "perDayUCB": 1168.902,
+   "variants": "6/6",
+   "gate": "STAGE FIRST"
+  },
+  {
+   "id": "C05",
+   "name": "NetworkPolicy: deny app=quote-api to kube-apiserver",
+   "exception": null,
+   "k": 0,
+   "perDayUCB": 0.214,
+   "variants": "6/6",
+   "gate": "APPROVAL"
+  },
+  {
+   "id": "C06",
+   "name": "Deny API requests as quote-api service account",
+   "exception": null,
+   "k": 0,
+   "perDayUCB": 0.214,
+   "variants": "5/5",
+   "gate": "APPROVAL"
+  },
+  {
+   "id": "C07",
+   "name": "Reject staging-scoped tokens on prod deploy API",
+   "exception": null,
+   "k": 0,
+   "perDayUCB": 0.214,
+   "variants": "3/3",
+   "gate": "AUTO-APPLY"
+  },
+  {
+   "id": "C08",
+   "name": "Revoke leaked token stg-7f3a",
+   "exception": null,
+   "k": 610,
+   "perDayUCB": 46.587,
+   "variants": "3/3",
+   "gate": "STAGE FIRST"
+  },
+  {
+   "id": "C09",
+   "name": "Block /CLAUDE.md and dotfiles on www",
+   "exception": null,
+   "k": 2,
+   "perDayUCB": 0.45,
+   "variants": "1/1",
+   "gate": "APPROVAL"
+  },
+  {
+   "id": "C10",
+   "name": "Block legacy authentication (all users)",
+   "exception": null,
+   "k": 562,
+   "perDayUCB": 43.042,
+   "variants": "7/7",
+   "gate": "STAGE FIRST"
+  },
+  {
+   "id": "C11",
+   "name": "Block shell spawned by MFT java service",
+   "exception": null,
+   "k": 42,
+   "perDayUCB": 3.88,
+   "variants": "3/3",
+   "gate": "APPROVAL"
+  },
+  {
+   "id": "C11x",
+   "name": "Block shell spawned by MFT java service",
+   "exception": "except /opt/mft/bin/post_transfer.sh",
+   "k": 0,
+   "perDayUCB": 0.214,
+   "variants": "3/3",
+   "gate": "AUTO-APPLY"
+  },
+  {
+   "id": "C12",
+   "name": "Block LSASS memory reads on jump hosts",
+   "exception": null,
+   "k": 0,
+   "perDayUCB": 0.214,
+   "variants": "2/2",
+   "gate": "AUTO-APPLY"
+  },
+  {
+   "id": "C13",
+   "name": "Block WebClient NTLM auth from Tier 0/1 servers",
+   "exception": null,
+   "k": 77,
+   "perDayUCB": 6.648,
+   "variants": "2/2",
+   "gate": "APPROVAL"
+  },
+  {
+   "id": "C13x",
+   "name": "Block WebClient NTLM auth from Tier 0/1 servers",
+   "exception": "except prn-02 -> sharepoint.meridian.local",
+   "k": 0,
+   "perDayUCB": 0.214,
+   "variants": "2/2",
+   "gate": "AUTO-APPLY"
+  },
+  {
+   "id": "C14",
+   "name": "AD CS web enrollment: require EPA, disable NTLM",
+   "exception": null,
+   "k": 0,
+   "perDayUCB": 0.214,
+   "variants": "2/2",
+   "gate": "APPROVAL"
+  },
+  {
+   "id": "C15",
+   "name": "svc-backup: AES-only Kerberos, rotate password",
+   "exception": null,
+   "k": 55,
+   "perDayUCB": 4.918,
+   "variants": "3/3",
+   "gate": "APPROVAL"
+  },
+  {
+   "id": "C16",
+   "name": "Block SMB from user VLANs to backup subnet",
+   "exception": null,
+   "k": 34,
+   "perDayUCB": 3.233,
+   "variants": "1/1",
+   "gate": "APPROVAL"
+  },
+  {
+   "id": "C16x",
+   "name": "Block SMB from user VLANs to backup subnet",
+   "exception": "except hd-01, hd-02",
+   "k": 0,
+   "perDayUCB": 0.214,
+   "variants": "1/1",
+   "gate": "APPROVAL"
+  },
+  {
+   "id": "C17",
+   "name": "vCenter: require MFA for every login",
+   "exception": null,
+   "k": 336,
+   "perDayUCB": 26.268,
+   "variants": "2/2",
+   "gate": "STAGE FIRST"
+  },
+  {
+   "id": "C17x",
+   "name": "vCenter: require MFA for every login",
+   "exception": "except svc-vmmon from mon-01",
+   "k": 0,
+   "perDayUCB": 0.214,
+   "variants": "2/2",
+   "gate": "APPROVAL"
+  },
+  {
+   "id": "C18",
+   "name": "Restrict MFT /admin to corporate ranges",
+   "exception": null,
+   "k": 2,
+   "perDayUCB": 0.45,
+   "variants": "2/2",
+   "gate": "APPROVAL"
+  },
+  {
+   "id": "C18x",
+   "name": "Restrict MFT /admin to corporate ranges",
+   "exception": "except 198.51.100.24",
+   "k": 0,
+   "perDayUCB": 0.214,
+   "variants": "2/2",
+   "gate": "AUTO-APPLY"
+  },
+  {
+   "id": "C19",
+   "name": "Virtual patch: VPN portal traversal signature",
+   "exception": null,
+   "k": 0,
+   "perDayUCB": 0.214,
+   "variants": "2/2",
+   "gate": "AUTO-APPLY"
+  },
+  {
+   "id": "C20",
+   "name": "Patch VPN appliance (vendor fix)",
+   "exception": null,
+   "k": 0,
+   "perDayUCB": 0.214,
+   "variants": "2/2",
+   "gate": "APPROVAL"
+  }
+ ],
+ "plans": {
+  "any_depth1": {
+   "ids": [
+    "C02x",
+    "C07",
+    "C12",
+    "C13x",
+    "C16x",
+    "C17x"
+   ],
+   "count": 6,
+   "costUCB": 1.2838852600947837,
+   "pointPerDay": 0,
+   "k": 0,
+   "minutes": 90,
+   "severed": 15,
+   "singlePoint": 13
+  },
+  "any_depth2": {
+   "ids": [
+    "C02x",
+    "C03",
+    "C05",
+    "C07",
+    "C09",
+    "C11x",
+    "C12",
+    "C13x",
+    "C14",
+    "C15",
+    "C16x",
+    "C17x",
+    "C19"
+   ],
+   "count": 13,
+   "costUCB": 1753.893804557982,
+   "pointPerDay": 1732.0714285714284,
+   "k": 24249,
+   "minutes": 120,
+   "severed": 15,
+   "singlePoint": 0
+  },
+  "within10_depth1": {
+   "ids": [
+    "C02x",
+    "C07",
+    "C10",
+    "C12",
+    "C13x"
+   ],
+   "count": 5,
+   "costUCB": 43.89797028579196,
+   "pointPerDay": 40.142857142857146,
+   "k": 562,
+   "minutes": 10,
+   "severed": 15,
+   "singlePoint": 14
+  },
+  "within60_depth1": {
+   "ids": [
+    "C02x",
+    "C07",
+    "C12",
+    "C13x",
+    "C15"
+   ],
+   "count": 5,
+   "costUCB": 5.773832930421382,
+   "pointPerDay": 3.9285714285714284,
+   "k": 55,
+   "minutes": 60,
+   "severed": 15,
+   "singlePoint": 15
+  },
+  "within10_depth2": {
+   "feasible": false,
+   "uncoverable": [
+    "KC-01",
+    "KC-02",
+    "KC-03",
+    "KC-04",
+    "KC-05",
+    "KC-08",
+    "KC-09"
+   ]
+  }
+ },
+ "entryPointBaseline": {
+  "ids": [
+   "C02",
+   "C09",
+   "C10",
+   "C18",
+   "C19"
+  ],
+  "count": 5,
+  "costUCB": 105.10251166326884,
+  "pointPerDay": 97.92857142857143,
+  "k": 1371,
+  "minutes": 10,
+  "severed": 15,
+  "singlePoint": 15
+ }
+}
